@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  postgres-keycloak:
+    image: postgres:16.1
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+
+  keycloak:
+    image: bitnami/keycloak:22.0.5
+    environment:
+      - KEYCLOAK_ADMIN_USER=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_DATABASE_VENDOR=postgresql
+      - KEYCLOAK_DATABASE_HOST=postgres-keycloak
+      - KEYCLOAK_DATABASE_NAME=keycloak
+      - KEYCLOAK_DATABASE_USER=admin
+      - KEYCLOAK_DATABASE_SCHEMA=public
+      - KEYCLOAK_DATABASE_PASSWORD=admin
+    ports:
+      - "9080:8080"
+    depends_on:
+      - postgres-keycloak
+
+  mongodb:
+    image: mongo:7.0
+    container_name: task_db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: tasks_db

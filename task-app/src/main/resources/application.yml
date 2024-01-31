@@ -1,0 +1,23 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/tasks_db?authSource=admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.keycloak.url}/realms/${app.keycloak.realm}/protocol/openid-connect/certs
+          issuer-uri: ${app.keycloak.url}/realms/${app.keycloak.realm}
+
+app:
+  keycloak:
+    url: http://localhost:9080
+    token-url: ${app.keycloak.url}/realms/${app.keycloak.realm}/protocol/openid-connect/token
+    realm: tasks
+    client:
+      id: task-service-client
+      secret: XsEo3vPhZjBaFT8gE12vWLzTXWWPNpDv
+  integration:
+    user-app:
+      url: http://localhost:8081
+      get-users-url: ${app.integration.user-app.url}/api/v1/user

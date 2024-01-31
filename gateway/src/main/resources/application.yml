@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/user-api/**
+          filters:
+            - StripPrefix=1
+
+        - id: task-route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/task-api/**
+          filters:
+            - StripPrefix=1

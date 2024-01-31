@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${app.keycloak.url}/realms/${app.keycloak.realm}/protocol/openid-connect/certs
+          issuer-uri: ${app.keycloak.url}/realms/${app.keycloak.realm}
+
+app:
+  keycloak:
+    url: http://localhost:9080
+    realm: tasks
+    client:
+      id: tasks-keycloak-client
+      secret: 0tamQK3jRCNega65Va930wTAsu4Fh46w
